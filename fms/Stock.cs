@@ -7,7 +7,7 @@ namespace fmsServer
         public double LatestQuote { get; set; }
         public DateTime LastUpdateTimestamp { get; set; }
 
-        public Stock(int id, int latestQuote)
+        public Stock(int id, double latestQuote)
         {
             Id = id;
             LatestQuote = latestQuote;
