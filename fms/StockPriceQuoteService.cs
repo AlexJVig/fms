@@ -44,6 +44,8 @@ namespace fmsServer
 
         private void PrintQuotes()
         {
+            Console.Clear();
+
             foreach (var stock in _market)
             {
                 Console.WriteLine($"Symbol: {stock.Id} Latest Quote: {stock.LatestQuote}");
