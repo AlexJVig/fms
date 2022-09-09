@@ -44,7 +44,7 @@ namespace fmsServer
 
         private void PrintQuotes()
         {
-            Console.Clear();
+            //Console.Clear();
 
             foreach (var stock in _market)
             {

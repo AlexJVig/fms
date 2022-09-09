@@ -4,21 +4,25 @@ namespace fmsServer
 {
     public class IndexPriceQuoteService
     {
-        private List<Stock> _market;
+        private List<Stock> _stocks;
         private IStockIndex _index;
-        private Timer _timer;
-        private Random random = new Random();
 
-        public IndexPriceQuoteService(IStockIndex index1, List<Stock> market)
+        public IndexPriceQuoteService(IStockIndex index1, List<Stock> stocks)
         {
             _index = index1;
-            _market = market;
-            _timer = new Timer(CalculateIndexAverage, null, 0, 1_000);
+            _stocks = stocks;
         }
 
         public void CalculateIndexAverage(object? state)
         {
+            double sum = 0;
 
+            foreach (var stock in _stocks)
+            {
+                sum += stock.LatestQuote;
+            }
+
+            Console.WriteLine($"The index average price is: {sum / _stocks.Count}");
         }
     }
 }

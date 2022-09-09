@@ -19,7 +19,7 @@ for (int i = 1000; i < 1100; i++)
 }
 
 StockIndex marketIndex = new StockIndex(1, stocks);
-StockIndex top10Index = new StockIndex(2, indexList);
+StockIndex top10Index = new StockIndex(2, indexList, true);
 StockPriceQuoteService quoteService = new StockPriceQuoteService(marketIndex, stocks);
 IndexPriceQuoteService averagePriceService = new IndexPriceQuoteService(top10Index, indexList);
 Console.ReadKey();

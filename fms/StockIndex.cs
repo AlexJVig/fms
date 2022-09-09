@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+
 namespace fmsServer
 {
     public class StockIndex : IStockIndex
@@ -9,7 +11,7 @@ namespace fmsServer
         public List<Stock> stockList { get; }
         private Dictionary<int, Stock> stockDictionarry { get; set; }
 
-        public StockIndex(int id, List<Stock> stocks)
+        public StockIndex(int id, List<Stock> stocks, bool calculateAverage = false)
         {
             Id = id;
             stockList = stocks;
@@ -18,6 +20,14 @@ namespace fmsServer
             foreach (var stock in stocks)
             {
                 stockDictionarry.Add(stock.Id, stock);
+            }
+
+            if (calculateAverage)
+            {
+                foreach (var stock in stocks)
+                {
+                    stock.PropertyChanged += CalculateIndexAverage;
+                }
             }
         }
 
@@ -30,17 +40,19 @@ namespace fmsServer
             }
         }
 
-        public void UpdateIndexPriceAverageQuote()
+        public void CalculateIndexAverage(object? sender, PropertyChangedEventArgs e)
         {
-            double sum = 0;
-
-            foreach (var stock in stockList)
+            Task.Run(() =>
             {
-                sum += stock.LatestQuote;
-            }
+                double sum = 0;
 
-            IndexPriceAverageQuote = sum / stockList.Count;
-            LastQuoteTimestamp = DateTime.Now;
+                foreach (var stock in stockList)
+                {
+                    sum += stock.LatestQuote;
+                }
+
+                Console.WriteLine($"The index average price is: {sum / stockList.Count}");
+            });
         }
     }
 }
